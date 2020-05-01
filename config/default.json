@@ -1,3 +1,6 @@
 {
-    "mongoURI": "mongodb+srv://admin:root@cluster0-8skis.mongodb.net/test?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://admin:root@cluster0-8skis.mongodb.net/test?retryWrites=true&w=majority",
+    "JWT_SECRET": "mySecret",
+    "gitHubId": "08ea6a22a93ecea7feaf",
+    "gitHubSecret": "72cc49e0e110a940495594c53a29377bc995cc3a"
 }
