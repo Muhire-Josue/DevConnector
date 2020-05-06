@@ -4,6 +4,7 @@ import Landing from './components/layout/Landing';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LogIn from './components/auth/LogIn';
 import Register from './components/auth/Register';
+import Alert from './components/layout/Alert';
 import './App.css';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -12,9 +13,10 @@ const App = () => {
     <Provider store={store}>
     <Router>
       <Fragment className="App">
-        <NavBar />
+          <NavBar />
         <Route exact path='/' component={Landing} />
           <section className="container">
+          <Alert />
             <Switch>
           <Route exact path='/login' component={LogIn} />
           <Route exact path='/register' component={Register} />
