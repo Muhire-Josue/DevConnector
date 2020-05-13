@@ -1,7 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const Landing = () => {
+const Landing = ({ isAuthenticated }) => {
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />
+  }
   return (
     <div>
        <section className="landing">
@@ -23,4 +27,8 @@ const Landing = () => {
   )
 }
 
-export default Landing
+const mapStateToPros = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToPros)(Landing);
