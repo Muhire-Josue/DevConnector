@@ -2,10 +2,12 @@ import axios from 'axios';
 import setAlert from './alert';
 import {
     GET_PROFILE,
+    GET_PROFILES,
     PROFILE_ERROR,
     UPDATE_PROFILE,
     ACCOUNT_DELETED,
-    CLEAR_PROFILE
+    CLEAR_PROFILE,
+    GET_REPOS
 } from './types';
 
 export const getCurrentProfile = () => async dispatch => {
@@ -13,6 +15,56 @@ export const getCurrentProfile = () => async dispatch => {
         const res = await axios.get('http://localhost:5000/api/profile/me');
         dispatch({
             type: GET_PROFILE,
+            payload: res.data
+        });
+    } catch (error) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: error.response.statusText, status: error.response.status }
+        })
+    }
+};
+
+
+// Get all profiles
+export const getProfiles = () => async dispatch => {
+    dispatch({ type: CLEAR_PROFILE });
+  
+    try {
+      const res = await axios.get('http://localhost:5000/api/profile');
+
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
+  };
+
+export const getProfileById = userID => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:5000/api/profile/user/${userID}`);
+        dispatch({
+            type: GET_PROFILE,
+            payload: res.data
+        });
+    } catch (error) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: error.response.statusText, status: error.response.status }
+        })
+    }
+};
+
+export const getGithubRepos = username => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:5000/api/profile/github/${username}`);
+        dispatch({
+            type: GET_REPOS,
             payload: res.data
         });
     } catch (error) {
@@ -144,7 +196,7 @@ export const deleteEducation = id => async dispatch => {
 export const deleteAccount = () => async dispatch => {
     if (window.confirm('Are you sure you want to delete your account?')) {
         try {
-            const res = await axios.delete('http://localhost:5000/api/profile');
+            await axios.delete('http://localhost:5000/api/profile');
             dispatch({ type: CLEAR_PROFILE });
             dispatch({ type: ACCOUNT_DELETED });
             dispatch(setAlert('Your account has been permanently deleted!', 'success'));
